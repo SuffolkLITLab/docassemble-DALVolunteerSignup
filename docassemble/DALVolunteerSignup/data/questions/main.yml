@@ -50,15 +50,15 @@ code: |
     },
     {
       'user_testing': "Testing",
-      'help': "Test live interviews and create issue reports that the update team can use to strengthen the interviews."
+      'help': "Test interviews and create issue reports to help us make improvements and updates."
     },
     {
-      'translation': "Reviewing translations",
+      'translation': "Translation",
       'help': "Review interview translations for accuracy."
     },
     {
-      'data_validation': "Updating data",
-      'help': "Check and update data sources like courthouse addresses."
+      'information_gathering': "Information gathering",
+      'help': "Gather and update the information sources that power interview features, like courthouse addresses."
     }
   ]
 ---
