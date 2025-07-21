@@ -148,15 +148,14 @@ review:
     show if: volunteer.interested_in['translation']
     button: |
       **Languages you can translate:**
-
+      
       % if volunteer.interested_in['translation']:
       % for lang in volunteer.languages_known.true_values():
-      % if lang == 'Other':
-      * ${ lang }: ${ volunteer.other_languages_known }
-      % else:
       * ${ lang }
-      % endif
       % endfor
+      % if volunteer.other_languages_known:
+      * Other: ${ volunteer.other_languages_known }
+      % endif
       % else:
       None
       % endif
@@ -215,12 +214,11 @@ content: |
   **Languages ${ volunteer.name.first } can translate:**
   
   % for lang in volunteer.languages_known.true_values():
-  % if lang == 'Other':
-  * ${ lang }: ${ volunteer.other_languages_known }
-  % else:
   * ${ lang }
-  % endif
   % endfor
+  % if volunteer.other_languages_known:
+  * Other: ${ volunteer.other_languages_known }
+  % endif
   % endif
 ---
 event: thank_you
