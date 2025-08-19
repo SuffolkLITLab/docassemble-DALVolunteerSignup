@@ -7,8 +7,8 @@ scope = ['https://spreadsheets.google.com/feeds',
          'https://www.googleapis.com/auth/drive.file']
 __all__ = ['append_to_sheet']
 
-def append_to_sheet(sheet_name, vals, worksheet_index=0):
+def append_to_sheet(sheet_key, vals, worksheet_index=0):
     creds = ServiceAccountCredentials.from_json_keyfile_dict(credential_info, scope)
     client = gspread.authorize(creds)
-    sheet = client.open(sheet_name).get_worksheet(worksheet_index)
+    sheet = client.open_by_key(sheet_key).get_worksheet(worksheet_index)
     sheet.append_row(vals)
