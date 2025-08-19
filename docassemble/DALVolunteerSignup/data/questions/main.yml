@@ -81,7 +81,6 @@ choices:
   - None
   - Some
   - Lots
-none of the above: False
 ---
 code: |
   # This is the list of language we need translators for.
