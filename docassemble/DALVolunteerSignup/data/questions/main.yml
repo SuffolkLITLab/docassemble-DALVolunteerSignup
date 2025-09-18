@@ -11,9 +11,6 @@ metadata:
   description: Learn more about volunteering with the Document Assembly Line.
   link: https://assemblyline.suffolklitlab.org/volunteer
 ---
-# features:
-
----
 objects:
   - volunteer: Individual
   - opportunities: DAList
