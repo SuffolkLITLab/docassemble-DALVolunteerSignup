@@ -50,11 +50,10 @@ setup(name='docassemble.DALVolunteerSignup',
       long_description_content_type='text/markdown',
       author='Suffolk LIT Lab',
       author_email='litlab@suffolk.edu',
-      license='The MIT License (MIT)',
+      license='MIT',
       url='https://assemblyline.suffolklitlab.org/volunteer',
       packages=find_namespace_packages(),
       install_requires=['docassemble.AssemblyLine @ git+https://github.com/SuffolkLITLab/docassemble-AssemblyLine.git@main'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/DALVolunteerSignup/', package='docassemble.DALVolunteerSignup'),
      )
-

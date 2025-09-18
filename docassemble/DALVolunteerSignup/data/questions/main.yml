@@ -11,6 +11,9 @@ metadata:
   description: Learn more about volunteering with the Document Assembly Line.
   link: https://assemblyline.suffolklitlab.org/volunteer
 ---
+# features:
+
+---
 objects:
   - volunteer: Individual
   - opportunities: DAList
@@ -20,6 +23,7 @@ objects:
 ### Interview order ###
 mandatory: True
 code: |
+  welcome
   volunteer.name.first
   volunteer.email
   volunteer.interested_in
@@ -32,11 +36,21 @@ code: |
   email_sent
   thank_you
 ---
+id: welcome
+continue button field: welcome
+question: Welcome
+subquestion: |
+  We're excited you're thinking of joining the Document Assembly Line volunteer community!
+
+  We’ve had an amazing response to our posting and we have all the volunteers we can handle right now. To get notified when we next start accepting new volunteers, continue to fill out this form with your interests and experience. We will contact you as soon as we have new opportunities.
+---
+id: name
 question: What is your name?
 fields:
   - First name: volunteer.name.first
   - Last name: volunteer.name.last
 ---
+id: email
 question: What is your email address?
 fields:
   - Email address: volunteer.email
@@ -59,9 +73,14 @@ code: |
     {
       'information_gathering': "Information gathering",
       'help': "Gather and update the information sources that power interview features, like courthouse addresses."
+    },
+    {
+      'volunteer_operations': "Volunteer operations",
+      'help': "Strengthen our volunteer organizing efforts."
     }
   ]
 ---
+id: interests
 question: Which opportunities are you interested in?
 subquestion: |
   Click the :circle-question: for a description. For more details, visit the Document Assembly Line [volunteer page](https://assemblyline.suffolklitlab.org/volunteer).
@@ -109,6 +128,7 @@ fields:
   - Other languages: volunteer.other_languages_known
     show if: volunteer.languages_known['Other']
 ---
+id: review
 question: Review before sending
 subquestion: |
   **Don't leave without clicking the Submit button below!**
@@ -220,9 +240,14 @@ content: |
   % endif
   % endif
 ---
+id: end
 event: thank_you
 question: Thanks, ${ volunteer.name.first }!
 subquestion: |
-  We'll be in touch shortly.
+  We will let you know when we start accepting new members again.
 
   In the meantime, check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
+# subquestion: |
+#   We'll be in touch shortly.
+
+#   In the meantime, check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
