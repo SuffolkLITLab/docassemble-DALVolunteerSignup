@@ -28,6 +28,8 @@ code: |
     volunteer.docassemble_experience
   if volunteer.interested_in['translation']:
     volunteer.languages_known
+  if volunteer.interested_in['organizing']:
+    volunteer.has_organizing_experience
   submit
   google_sheet_updated
   email_sent
@@ -39,7 +41,7 @@ question: Welcome
 subquestion: |
   We're excited you're thinking of joining the Document Assembly Line volunteer community!
 
-  We’ve had an amazing response to our posting and we have all the volunteers we can handle right now. To get notified when we next start accepting new volunteers, continue to fill out this form with your interests and experience. We will contact you as soon as we have new opportunities.
+  To get involved, fill out this form with your interests and experience. We will need your email address to get in touch.
 ---
 id: name
 question: What is your name?
@@ -49,12 +51,18 @@ fields:
 ---
 id: email
 question: What is your email address?
+subquestion: |
+  We need your email address to contact you about volunteering.
 fields:
   - Email address: volunteer.email
     datatype: email
 ---
 code: |
   opportunities = [
+    {
+      'organizing': "Volunteer organizing",
+      'help': "Strengthen our volunteer operations and coordination efforts."
+    },
     {
       'interview_building': "Updating",
       'help': "Help us work through our backlog of interview improvements and updates."
@@ -70,10 +78,6 @@ code: |
     {
       'information_gathering': "Information gathering",
       'help': "Gather and update the information sources that power interview features, like courthouse addresses."
-    },
-    {
-      'volunteer_operations': "Volunteer operations",
-      'help': "Strengthen our volunteer organizing efforts."
     }
   ]
 ---
@@ -94,12 +98,21 @@ id: Docassemble experience
 question: How much experience do you have with Docassemble?
 field: volunteer.docassemble_experience
 choices:
-  - None
+  - None yet: "None"
   - Some
   - Lots
 ---
+id: ops experience
+question: Past organizing experience
+fields:
+  - Have you had experience coordiating/organizing before?: volunteer.has_organizing_experience
+    datatype: yesnoradio
+  - Tell us a bit about your experience. Let us know if you have had experience with organizing *volunteers* specifically.: volunteer.organizing_experience
+    input type: area
+    enable if: volunteer.has_organizing_experience
+---
 code: |
-  # This is the list of language we need translators for.
+  # This is the list of languages we need translators for.
   languages = [
     'Spanish',
     'Portuguese',
@@ -151,14 +164,23 @@ review:
       % endif
       % endfor
       % endfor
+  - Edit: volunteer.has_organizing_experience
+    show if: volunteer.interested_in['organizing']
+    button: |
+      **Your experience with organizing:**
+      % if volunteer.has_organizing_experience:
+      ${ showifdef( volunteer.attr_name('organizing_experience')) or 'None yet' }
+      % else:
+      None yet
+      % endif
   - Edit: volunteer.docassemble_experience
     show if: volunteer.interested_in['interview_building']
     button: |
       **Your experience with Docassemble:** 
       % if volunteer.interested_in['interview_building']:
-      ${ volunteer.docassemble_experience }
+      ${ 'None yet' if volunteer.docassemble_experience == 'None' else volunteer.docassemble_experience }
       % else:
-      None
+      None yet
       % endif
   - Edit: volunteer.languages_known
     show if: volunteer.interested_in['translation']
@@ -193,7 +215,8 @@ code: |
       comma_list( selected_opportunities ),
       volunteer.docassemble_experience if volunteer.interested_in['interview_building'] else '',
       comma_list( volunteer.languages_known.true_values() ) if volunteer.interested_in['translation'] else '',
-      volunteer.other_languages_known if volunteer.interested_in['translation'] and volunteer.languages_known['Other'] else ''
+      volunteer.other_languages_known if volunteer.interested_in['translation'] and volunteer.languages_known['Other'] else '',
+      showifdef( volunteer.attr_name('organizing_experience'))
     ]
   )
   google_sheet_updated = True
@@ -236,12 +259,16 @@ content: |
   * Other: ${ volunteer.other_languages_known }
   % endif
   % endif
+
+  % if volunteer.interested_in['organizing']:
+  **Organizing experience:** ${ showifdef( volunteer.attr_name('organizing_experience') ) or 'None' }
+  % endif
 ---
 id: end
 event: thank_you
 question: Thanks, ${ volunteer.name.first }!
 subquestion: |
-  We will let you know when we start accepting new members again.
+  We look forward to meeting you! We will get in touch as soon as we are able.
 
   In the meantime, check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
 # subquestion: |
