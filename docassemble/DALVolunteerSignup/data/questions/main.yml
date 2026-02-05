@@ -268,7 +268,7 @@ id: end
 event: thank_you
 question: Thanks, ${ volunteer.name.first }!
 subquestion: |
-  We will let you know when we start accepting new members again.
+  We look forward to meeting you! We will get in touch as soon as we are able.
 
   In the meantime, check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
 # subquestion: |
