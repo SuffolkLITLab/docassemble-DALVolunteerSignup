@@ -41,7 +41,7 @@ question: Welcome
 subquestion: |
   We're excited you're thinking of joining the Document Assembly Line volunteer community!
 
-  To get involved, fill out this form with your interests and experience. We will need your email address to get in touch.
+  To get involved, fill out this form with your interests and experience and we will get in touch as we have capacity. We will need your email address to get in touch.
 ---
 id: name
 question: What is your name?
@@ -216,7 +216,8 @@ code: |
       volunteer.docassemble_experience if volunteer.interested_in['interview_building'] else '',
       comma_list( volunteer.languages_known.true_values() ) if volunteer.interested_in['translation'] else '',
       volunteer.other_languages_known if volunteer.interested_in['translation'] and volunteer.languages_known['Other'] else '',
-      showifdef( volunteer.attr_name('organizing_experience'))
+      showifdef( volunteer.attr_name('organizing_experience')),
+      url_args.get('source', '')
     ]
   )
   google_sheet_updated = True
@@ -271,7 +272,3 @@ subquestion: |
   We look forward to meeting you! We will get in touch as soon as we are able.
 
   In the meantime, check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
-# subquestion: |
-#   We'll be in touch shortly.
-
-#   In the meantime, check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
