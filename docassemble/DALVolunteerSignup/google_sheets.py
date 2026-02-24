@@ -11,4 +11,4 @@ def append_to_sheet(sheet_key, vals, worksheet_index=0):
     creds = ServiceAccountCredentials.from_json_keyfile_dict(credential_info, scope)
     client = gspread.authorize(creds)
     sheet = client.open_by_key(sheet_key).get_worksheet(worksheet_index)
-    sheet.append_row(vals)
+    sheet.append_row(vals, table_range='A1')
