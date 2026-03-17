@@ -196,6 +196,11 @@ review:
       % else:
       None yet
       % endif
+  - Edit: volunteer.legal_background
+    show if: volunteer.interested_in['legal']
+    button: |
+      **Legal background:**[BR]
+      ${ volunteer.legal_background }
   - Edit: volunteer.docassemble_experience
     show if: volunteer.interested_in['interview_building']
     button: |
@@ -220,11 +225,6 @@ review:
       % else:
       None
       % endif
-  - Edit: volunteer.legal_background
-    show if: volunteer.interested_in['legal']
-    button: |
-      **Legal background:**[BR]
-      ${ volunteer.legal_background }
   - Edit: volunteer.other_contributions
     show if: volunteer.interested_in['other']
     button: |
@@ -252,8 +252,8 @@ code: |
       volunteer.other_languages_known if volunteer.interested_in['translation'] and volunteer.languages_known['Other'] else '',
       showifdef( volunteer.attr_name('organizing_experience')),
       url_args.get('source', ''),
-      showifdef( volunteer.attr_name('legal_background')),
-      showifdef( volunteer.attr_name('other_contributions')),
+      showifdef( volunteer.attr_name('legal_background') ),
+      showifdef( volunteer.attr_name('other_contributions') ),
     ]
   )
   google_sheet_updated = True
