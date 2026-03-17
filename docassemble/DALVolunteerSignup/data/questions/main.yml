@@ -1,7 +1,14 @@
 ---
 include:
   - docassemble.AssemblyLine:assembly_line.yml
+  - docassemble.ALToolbox:copy_button.yml
   - docassemble.LITLabTheme:main.yml
+---
+features:
+  javascript:
+    - copy_button.js
+  css:
+    - copy_button.css
 ---
 modules:
   - .google_sheets
@@ -9,7 +16,7 @@ modules:
 metadata:
   title: Document Assembly Line volunteer signup
   description: Learn more about volunteering with the Document Assembly Line.
-  link: https://assemblyline.suffolklitlab.org/docs/volunteer
+  link: https://assemblyline.suffolklitlab.org/docs/volunteer/sign_up
 ---
 objects:
   - volunteer: Individual
@@ -24,12 +31,16 @@ code: |
   volunteer.name.first
   volunteer.email
   volunteer.interested_in
+  if volunteer.interested_in['organizing']:
+    volunteer.has_organizing_experience
+  if volunteer.interested_in['legal']:
+    volunteer.legal_background
   if volunteer.interested_in['interview_building']:
     volunteer.docassemble_experience
   if volunteer.interested_in['translation']:
     volunteer.languages_known
-  if volunteer.interested_in['organizing']:
-    volunteer.has_organizing_experience
+  if volunteer.interested_in['other']:
+    volunteer.other_contributions
   submit
   google_sheet_updated
   email_sent
@@ -64,27 +75,27 @@ code: |
       'help': "Strengthen our volunteer operations and coordination efforts."
     },
     {
-      'interview_building': "Updating",
-      'help': "Help us work through our backlog of interview improvements and updates."
+      'legal': "Lending legal subject matter expertise",
+      'help': "Help us make sure our interviews are legally accurate for the situation and location."
     },
     {
-      'user_testing': "Testing",
-      'help': "Test interviews and create issue reports to help us make improvements and updates."
+      'interview_building': "Building and updating forms",
+      'help': "Help us build new forms and work through our backlog of form improvements and updates."
     },
     {
-      'translation': "Translation",
-      'help': "Review interview translations for accuracy."
+      'translation': "Translating",
+      'help': "Review form translations for accuracy."
     },
     {
-      'information_gathering': "Information gathering",
-      'help': "Gather and update the information sources that power interview features, like courthouse addresses."
-    }
+      'other': "Contributing in other ways",
+      'help': "Ideas: local community organizers, usability testers, bug hunters, data verifiers, plain language wizards, documentation writers, copy editors, and whatever else you can think of!"
+    },
   ]
 ---
 id: interests
 question: Which opportunities are you interested in?
 subquestion: |
-  Click the :circle-question: for a description. For more details, visit the Document Assembly Line [volunteer page](https://assemblyline.suffolklitlab.org/docs/volunteer).
+  Click the :circle-question: for a description. For more details, visit the Document Assembly Line [volunteer page](https://assemblyline.suffolklitlab.org/docs/volunteer/sign_up).
 datatype: checkboxes
 fields:
   - no label: volunteer.interested_in
@@ -102,6 +113,12 @@ choices:
   - Some
   - Lots
 ---
+id: legal background
+question: Legal background
+fields:
+  - Describe your legal experience and areas of knowledge: volunteer.legal_background
+    input type: area
+---
 id: ops experience
 question: Past organizing experience
 fields:
@@ -110,6 +127,14 @@ fields:
   - Tell us a bit about your experience. Let us know if you have had experience with organizing *volunteers* specifically.: volunteer.organizing_experience
     input type: area
     enable if: volunteer.has_organizing_experience
+---
+id: other contributions
+question: You tell us!
+subquestion: |
+  Some ideas are: local community organizers, usability testers, bug hunters, data verifiers, plain language wizards, documentation writers, copy editors, and whatever else you can think of.
+fields:
+  - What other ways would you like to contribute and what experience do you have in those areas?: volunteer.other_contributions
+    input type: area
 ---
 code: |
   # This is the list of languages we need translators for.
@@ -167,12 +192,17 @@ review:
   - Edit: volunteer.has_organizing_experience
     show if: volunteer.interested_in['organizing']
     button: |
-      **Your experience with organizing:**
+      **Your experience with organizing:**[BR]
       % if volunteer.has_organizing_experience:
       ${ showifdef( volunteer.attr_name('organizing_experience')) or 'None yet' }
       % else:
       None yet
       % endif
+  - Edit: volunteer.legal_background
+    show if: volunteer.interested_in['legal']
+    button: |
+      **Legal background:**[BR]
+      ${ volunteer.legal_background }
   - Edit: volunteer.docassemble_experience
     show if: volunteer.interested_in['interview_building']
     button: |
@@ -197,6 +227,12 @@ review:
       % else:
       None
       % endif
+  - Edit: volunteer.other_contributions
+    show if: volunteer.interested_in['other']
+    button: |
+      **Other ways you would like to contribute:**[BR]
+      ${ volunteer.other_contributions }
+      
 continue button label: Submit
 continue button field: submit
 ---
@@ -217,7 +253,9 @@ code: |
       comma_list( volunteer.languages_known.true_values() ) if volunteer.interested_in['translation'] else '',
       volunteer.other_languages_known if volunteer.interested_in['translation'] and volunteer.languages_known['Other'] else '',
       showifdef( volunteer.attr_name('organizing_experience')),
-      url_args.get('source', '')
+      url_args.get('source', ''),
+      showifdef( volunteer.attr_name('legal_background') ),
+      showifdef( volunteer.attr_name('other_contributions') ),
     ]
   )
   google_sheet_updated = True
@@ -269,6 +307,12 @@ id: end
 event: thank_you
 question: Thanks, ${ volunteer.name.first }!
 subquestion: |
-  We look forward to meeting you! We will get in touch as soon as we are able.
+  We look forward to meeting you! We will get in touch as soon as we are able. In the meantime, you can...
 
-  In the meantime, check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
+  Share a link to this sign up form:
+  ${ copy_button_html( 'https://apps.suffolklitlab.org/interview?i=docassemble.DALVolunteerSignup:main.yml&source=signupformraw', label='Copy the sign up link' )}[BR]
+
+  Share a link to the volunteer info page:
+  ${ copy_button_html( 'https://assemblyline.suffolklitlab.org/docs/volunteer/sign_up&source=signupformlinktodocs', label='Copy the info page link' )}[BR]
+
+  And check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
