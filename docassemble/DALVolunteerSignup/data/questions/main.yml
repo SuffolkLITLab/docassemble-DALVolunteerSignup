@@ -130,6 +130,8 @@ fields:
 ---
 id: other contributions
 question: You tell us!
+subquestion: |
+  Some ideas are: local community organizers, usability testers, bug hunters, data verifiers, plain language wizards, documentation writers, copy editors, and whatever else you can think of.
 fields:
   - What other ways would you like to contribute and what experience do you have in those areas?: volunteer.other_contributions
     input type: area
