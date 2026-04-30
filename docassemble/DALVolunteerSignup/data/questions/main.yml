@@ -313,6 +313,6 @@ subquestion: |
   ${ copy_button_html( 'https://apps.suffolklitlab.org/interview?i=docassemble.DALVolunteerSignup:main.yml&source=signupformraw', label='Copy the sign up link' )}[BR]
 
   Share a link to the volunteer info page:
-  ${ copy_button_html( 'https://assemblyline.suffolklitlab.org/docs/volunteer/sign_up&source=signupformlinktodocs', label='Copy the info page link' )}[BR]
+  ${ copy_button_html( 'https://assemblyline.suffolklitlab.org/docs/volunteer/sign_up?source=signupformlinktodocs', label='Copy the info page link' )}[BR]
 
   And check out [the latest Document Assembly Line updates](https://suffolklitlab.org/category/document-assembly-line/) on the LIT Lab blog.
