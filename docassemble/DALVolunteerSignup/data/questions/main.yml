@@ -22,7 +22,7 @@ objects:
   - volunteer: Individual
   - opportunities: DAList
   - languages: DAList
-  - litlab_email: DAEmailRecipient.using(name="Suffolk LIT Lab volunteer signup", address="litlab@suffolk.edu")
+  - litlab_email: DAEmailRecipient.using(name="Suffolk LIT Lab volunteer signup", address="admin@volunteers.suffolklitlab.org")
 ---
 ### Interview order ###
 mandatory: True
