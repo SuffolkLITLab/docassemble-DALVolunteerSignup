@@ -33,10 +33,10 @@ code: |
   volunteer.interested_in
   if volunteer.interested_in['organizing']:
     volunteer.has_organizing_experience
-  if volunteer.interested_in['legal']:
-    volunteer.legal_background
   if volunteer.interested_in['interview_building']:
     volunteer.docassemble_experience
+  if volunteer.interested_in['legal']:
+    volunteer.legal_background
   if volunteer.interested_in['translation']:
     volunteer.languages_known
   if volunteer.interested_in['other']:
@@ -62,8 +62,6 @@ fields:
 ---
 id: email
 question: What is your email address?
-subquestion: |
-  We need your email address to contact you about volunteering.
 fields:
   - Email address: volunteer.email
     datatype: email
@@ -71,24 +69,24 @@ fields:
 code: |
   opportunities = [
     {
-      'organizing': "Volunteer organizing",
-      'help': "Strengthen our volunteer operations and coordination efforts."
-    },
-    {
-      'legal': "Lending legal subject matter expertise",
-      'help': "Help us make sure our interviews are legally accurate for the situation and location."
+      'organizing': "Organizing",
+      'help': "Help organize our volunteer efforts!"
     },
     {
       'interview_building': "Building and updating forms",
-      'help': "Help us build new forms and work through our backlog of form improvements and updates."
+      'help': "Help us build new forms and work through our maintenance and improvement backlog."
+    },
+    {
+      'legal': "Subject-matter expertise",
+      'help': "Review guided interviews for legal accuracy."
     },
     {
       'translation': "Translating",
       'help': "Review form translations for accuracy."
     },
     {
-      'other': "Contributing in other ways",
-      'help': "Ideas: local community organizers, usability testers, bug hunters, data verifiers, plain language wizards, documentation writers, copy editors, and whatever else you can think of!"
+      'other': "Other",
+      'help': "Ideas: bug hunters, copy editors and plain-language wizards, data validators, documentation writers, local community organizers, usability testers, and anything else you can think of!"
     },
   ]
 ---
@@ -114,26 +112,34 @@ choices:
   - Lots
 ---
 id: legal background
-question: Legal background
+question: Describe your legal experience and your areas of knowledge
 fields:
-  - Describe your legal experience and areas of knowledge: volunteer.legal_background
+  - no label: volunteer.legal_background
     input type: area
 ---
 id: ops experience
-question: Past organizing experience
+question: Do you have organizing experience?
 fields:
-  - Have you had experience coordiating/organizing before?: volunteer.has_organizing_experience
+  - no label: volunteer.has_organizing_experience
     datatype: yesnoradio
-  - Tell us a bit about your experience. Let us know if you have had experience with organizing *volunteers* specifically.: volunteer.organizing_experience
+  - Tell us about your experience, including if you have organized *volunteers* specifically.: volunteer.organizing_experience
     input type: area
-    enable if: volunteer.has_organizing_experience
+    show if: volunteer.has_organizing_experience
+    label above field: true
 ---
 id: other contributions
-question: You tell us!
-subquestion: |
-  Some ideas are: local community organizers, usability testers, bug hunters, data verifiers, plain language wizards, documentation writers, copy editors, and whatever else you can think of.
+question: How else would you like to contribute?
 fields:
-  - What other ways would you like to contribute and what experience do you have in those areas?: volunteer.other_contributions
+  - no label: volunteer.other_contributions
+    under text: |
+      Here are some examples:
+    
+      - Bug hunters to test and document issues
+      - Copy editors and plain-language wizards
+      - Data validators
+      - Documentation writers
+      - Local community organizers
+      - Usability testers to give feedback and document issues
     input type: area
 ---
 code: |
@@ -198,11 +204,6 @@ review:
       % else:
       None yet
       % endif
-  - Edit: volunteer.legal_background
-    show if: volunteer.interested_in['legal']
-    button: |
-      **Legal background:**[BR]
-      ${ volunteer.legal_background }
   - Edit: volunteer.docassemble_experience
     show if: volunteer.interested_in['interview_building']
     button: |
@@ -212,6 +213,11 @@ review:
       % else:
       None yet
       % endif
+  - Edit: volunteer.legal_background
+    show if: volunteer.interested_in['legal']
+    button: |
+      **Legal background:**[BR]
+      ${ volunteer.legal_background }
   - Edit: volunteer.languages_known
     show if: volunteer.interested_in['translation']
     button: |
@@ -307,7 +313,7 @@ id: end
 event: thank_you
 question: Thanks, ${ volunteer.name.first }!
 subquestion: |
-  We look forward to meeting you! We will get in touch as soon as we are able. In the meantime, you can...
+  We look forward to meeting you! We will get in touch as soon as we are able. In the meantime, you can:
 
   Share a link to this sign up form:
   ${ copy_button_html( 'https://apps.suffolklitlab.org/interview?i=docassemble.DALVolunteerSignup:main.yml&source=signupformraw', label='Copy the sign up link' )}[BR]
