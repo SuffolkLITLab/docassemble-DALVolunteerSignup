@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "docassemble.DALVolunteerSignup"
-version = "1.0.7"
+version = "1.0.8"
 description = "A volunteer signup form for the Document Assembly Line."
 readme = "README.md"
 authors = [
