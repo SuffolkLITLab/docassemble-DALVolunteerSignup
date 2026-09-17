@@ -308,6 +308,10 @@ content: |
   % if volunteer.interested_in['organizing']:
   **Organizing experience:** ${ showifdef( volunteer.attr_name('organizing_experience') ) or 'None' }
   % endif
+
+  % if volunteer.interested_in['other']:
+  **Other potential contributions:** ${ showifdef( volunteer.attr_name('other_contributions') ) or 'None' }
+  % endif
 ---
 id: end
 event: thank_you
