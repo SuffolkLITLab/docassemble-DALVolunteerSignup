@@ -120,7 +120,7 @@ fields:
 id: ops experience
 question: Do you have organizing experience?
 fields:
-  - no label: volunteer.has_organizing_experience
+  - "Do you have organizing experience?": volunteer.has_organizing_experience
     datatype: yesnoradio
   - Tell us about your experience, including if you have organized *volunteers* specifically.: volunteer.organizing_experience
     input type: area
